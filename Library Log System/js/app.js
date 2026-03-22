@@ -13,7 +13,7 @@ async function signInWithGoogle() {
     const { error } = await _supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-            redirectTo: 'https://raicelfontilla05.github.io/NEU-Library-Log/admin.html'
+            redirectTo: 'https://raicelfontilla05.github.io/NEU-Library-Log/Library Log System/index.html'
         }
     });
     if (error) alert("Login failed: " + error.message);
