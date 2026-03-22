@@ -1,7 +1,9 @@
 // Database Configuration
 const supabaseUrl = 'https://nukufjaarpbzyhziikpy.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im51a3VmamFhcnBienloemlpa3B5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxOTkxOTEsImV4cCI6MjA4OTc3NTE5MX0.Q4bCPsBfFW8qXlC4odbhx1D59CU8uurdgjxBqbSF6P4';
-const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+// Use 'window._supabase' so 'admin.js' can see it easily
+window._supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
 // Navigation
 function goToLogin() { location.href = "login.html"; }
@@ -51,12 +53,6 @@ async function processLogin() {
             .insert([{ email, user_type: type, department: dept, purpose: finalPurpose }]);
 
         if (error) throw error;
-
-        // Save for welcome.js to read
-        const logTime = new Date().toLocaleString();
-        let logs = JSON.parse(localStorage.getItem("visitorLogs") || "[]");
-        logs.push({ email, department: dept, purpose: finalPurpose, time: logTime });
-        localStorage.setItem("visitorLogs", JSON.stringify(logs));
 
         window.location.href = "welcome.html"; 
     } catch (err) {
