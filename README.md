@@ -1,39 +1,33 @@
-# NEU-Library-Log
-
 # 🏛️ NEU Library Visitor Log
 
-**Live Application:** [Insert Live Deployed Link Here]  
-**GitHub Repository:** [Insert GitHub Repo Link Here]
+**Live Application:** [Insert Your GitHub Pages Link Here]  
+**GitHub Repository:** [Insert Your Repository Link Here]
 
-The **NEU Library Visitor Log** is a centralized, secure, and user-friendly system designed to track, manage, and analyze library visits by students, faculty members, and employees at New Era University (NEU). It streamlines the entry process and equips the library administration with powerful statistical insights.
+The **NEU Library Visitor Log** is a centralized, secure, and user-friendly digital system designed to track and manage library attendance for students, faculty, and employees at New Era University (NEU). By replacing traditional paper logs with a cloud-integrated solution, the system provides real-time data accuracy and advanced administrative oversight.
 
 ---
 
-## ✨ Features
+## ✨ Key Features
 
-### 📥 Visitor Input & Authentication
-* **Quick ID Tap:** Visitors can simply tap their ID to log their entry.
-* **Google OAuth Integration:** Alternatively, users can securely log in using their NEU Institutional Google account.
-* **Visit Purpose:** Upon entry, visitors are prompted to select their reason for visiting (e.g., *Reading, Researching, Use of Computer, or Assignments*).
+### 📥 Visitor Entry & Data Collection
+* **Intuitive Logging:** Simple interface for visitors to record their entry using institutional credentials.
+* **Purpose-Driven Data:** Captures specific reasons for visits (e.g., *Research, Assignments, Computer Use*) to help the university understand facility utilization.
+* **Instant Confirmation:** Displays a "Success" summary for the user upon logging in, confirming their department and entry timestamp.
 
-### 🖥️ User Experience (Regular User)
-* **Personalized Welcome:** Upon a successful login/tap, the system displays a personalized message: *"Welcome to NEU Library!"* along with the visitor's name, date/time of login, and their respective college or office.
-
-### 🔐 Role-Based Access Control (RBAC) & Admin Capabilities
-* **Secure Role Switching:** Built with robust RBAC, the system allows authorized accounts (such as `jcesperanza@neu.edu.ph`) to safely toggle between **Regular User** and **Admin** roles without compromising session security.
-* **Admin Dashboard:** A responsive dashboard featuring statistical cards that track the number of visitors over specific timeframes (Daily, Weekly, Monthly, or a custom Date Range).
-* **Advanced Filtering:** Admins can filter visitor statistics by:
-    * Reason for visiting
-    * College/Department
-    * User Type (Student vs. Employee/Teacher/Staff)
-* **User Management:** Admins possess the authority to block specific users from the system if necessary.
+### 🔐 Administrative Dashboard & Security
+* **Role-Based Access Control (RBAC):** Access to sensitive data is strictly limited to authorized institutional accounts via secure Google OAuth 2.0.
+* **Real-Time Analytics:** A dynamic dashboard featuring statistical cards that track visitor counts by category (Student, Faculty, and Employee).
+* **User Management:** Administrators can manage access by blocking/unblocking specific accounts directly from the dashboard.
+* **Data Portability:** Integrated "Export to CSV" functionality allows for easy generation of official attendance reports.
+* **Cloud Maintenance:** Secure tools to clear logs and reset the system for new academic terms.
 
 ---
 
 ## 🛠️ Technology Stack
-* **IDE:** Visual Studio
-* **Local Server / Database:** Laragon (MySQL/Apache)
-* **Authentication:** Google Identity Services (OAuth 2.0)
+
+* **Frontend:** HTML5, CSS3 (Modern "Marble & Gold" Aesthetic), and Vanilla JavaScript.
+* **Backend as a Service (BaaS):** **Supabase** (PostgreSQL) for scalable cloud data storage.
+* **Authentication:** **Google Identity Services (OAuth 2.0)** for secure, single-sign-on (SSO) integration.
+* **Database Engine:** Supabase Realtime for live, no-refresh dashboard updates.
 
 ---
-
