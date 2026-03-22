@@ -1,6 +1,6 @@
 # 🏛️ NEU Library Visitor Log
 
-(https://raicelfontilla05.github.io/NEU-Library-Log/Library%20Log%20System/index.html)
+- [NEU Library Visitor Log](https://raicelfontilla05.github.io/NEU-Library-Log/Library%20Log%20System/index.html)
 
 
 The **NEU Library Visitor Log** is a centralized, secure, and user-friendly digital system designed to track and manage library attendance for students, faculty, and employees at New Era University (NEU). By replacing traditional paper logs with a cloud-integrated solution, the system provides real-time data accuracy and advanced administrative oversight.
