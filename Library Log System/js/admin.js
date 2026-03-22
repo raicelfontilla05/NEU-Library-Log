@@ -1,3 +1,5 @@
+// admin.js - DO NOT add Supabase config here, app.js handles it.
+
 async function checkAuth() {
     if (window.location.hash.includes("access_token")) {
         const cleanUrl = window.location.origin + window.location.pathname;
@@ -35,6 +37,8 @@ async function loadAdminData() {
     if (error) return console.error("Error:", error);
 
     const tableBody = document.getElementById("tableBody");
+    if (!tableBody) return; // Stop if the table isn't on this page
+
     const blockedUsers = JSON.parse(localStorage.getItem("blockedUsers") || "[]");
     tableBody.innerHTML = "";
 
@@ -66,13 +70,6 @@ async function loadAdminData() {
     document.getElementById("facultyCount").innerText = stats.Faculty;
 }
 
-function toggleBlockUser(email) {
-    let blocked = JSON.parse(localStorage.getItem("blockedUsers") || "[]");
-    blocked = blocked.includes(email) ? blocked.filter(e => e !== email) : [...blocked, email];
-    localStorage.setItem("blockedUsers", JSON.stringify(blocked));
-    loadAdminData();
-}
-
 function filterTable() {
     let val = document.getElementById("searchInput").value.toLowerCase();
     document.querySelectorAll("#visitorTable tbody tr").forEach(r => {
@@ -80,5 +77,5 @@ function filterTable() {
     });
 }
 
-// RUN THE CHECK
+// Start the check
 checkAuth();
