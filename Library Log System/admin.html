@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - NEU Library</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-login">
+    <header class="header">
+        <div class="header-left" onclick="goHome()">
+            <img src="assets/neu.png" class="header-logo" alt="NEU Logo">
+            <h1 class="header-title">NEU Library Admin</h1>
+        </div>
+        <div class="header-right">
+            <div id="header-clock"></div>
+            <button class="admin-btn" onclick="handleLogout()" style="margin-left: 10px; background: #555;">Logout</button>
+            <button class="admin-btn" onclick="clearAllData()" style="margin-left: 10px; background: #d9534f;">Clear Data</button>
+        </div>
+    </header>
+
+    <div class="admin-wrapper">
+        <div class="dashboard-card">
+            <h2 style="margin-bottom: 20px; color: white;">Visitor Dashboard</h2>
+            
+            <div class="card-container">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalVisitors">0</div>
+                    <div>Total Visitors</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="studentCount">0</div>
+                    <div>Students</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="employeeCount">0</div>
+                    <div>Employees</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="facultyCount">0</div>
+                    <div>Faculty</div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Search Visitors</label>
+                <input type="text" id="searchInput" placeholder="Search by email, department, purpose..." onkeyup="filterTable()">
+            </div>
+
+            <div class="table-container">
+                <table id="visitorTable">
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Type</th>
+                            <th>Department</th>
+                            <th>Purpose</th>
+                            <th>Time</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+
+            <button class="btn" onclick="exportData()" style="margin-top: 20px; width: 200px;">📥 Export CSV</button>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/admin.js"></script>
+    <script>
+        setInterval(() => updateClock("header-clock"), 1000);
+        updateClock("header-clock");
+    </script>
+</body>
+</html>

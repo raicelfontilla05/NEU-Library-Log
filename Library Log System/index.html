@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEU Library</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-index">
+    <div class="landing-container">
+        <img src="assets/neu.png" class="main-logo" alt="NEU Logo">
+        <h1 class="landing-title">Welcome to NEU Library</h1>
+        <p class="landing-subtitle">Digital Visitor Logging System</p>
+        <div class="big-clock" id="landing-clock"></div>
+        <button class="enter-btn" onclick="goToLogin()">TAP TO ENTER</button>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        setInterval(() => updateClock("landing-clock"), 1000);
+        updateClock("landing-clock");
+    </script>
+</body>
+</html>
