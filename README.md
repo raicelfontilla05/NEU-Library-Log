@@ -37,14 +37,3 @@ The **NEU Library Visitor Log** is a centralized, secure, and user-friendly syst
 
 ---
 
-## 🚀 Local Development Setup
-
-### Prerequisites
-1. Install [Laragon](https://laragon.org/).
-2. Install [Visual Studio](https://visualstudio.microsoft.com/).
-3. Set up a Google Cloud Console project for Google OAuth credentials.
-
-### Installation Steps
-1. **Clone the repository:**
-   ```bash
-   git clone [Insert GitHub Repo Link Here]
