@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - NEU Library</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body class="bg-login">
+    <div class="form-card" style="text-align: center; width: 450px;">
+        <img src="assets/neu.png" alt="NEU Logo" style="width: 80px; margin-bottom: 10px;">
+        <h1 class="title" style="font-size: 1.8rem; margin-bottom: 5px;">Welcome to NEU Library!</h1>
+        <p style="color: #e0c52b; font-weight: 600; margin-bottom: 25px;">Login Successful</p>
+
+        <div class="welcome-details" style="text-align: left; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1);">
+            <div class="detail-item" style="margin-bottom: 15px;">
+                <label style="font-size: 0.75rem; color: #aaa; display: block; text-transform: uppercase;">User Email</label>
+                <span id="display-email" style="font-size: 1.1rem; color: #fff;">-</span>
+            </div>
+
+            <div class="detail-item" style="margin-bottom: 15px;">
+                <label style="font-size: 0.75rem; color: #aaa; display: block; text-transform: uppercase;">Department</label>
+                <span id="display-dept" style="font-size: 1.1rem; color: #fff;">-</span>
+            </div>
+
+            <div class="detail-item" style="margin-bottom: 15px;">
+                <label style="font-size: 0.75rem; color: #aaa; display: block; text-transform: uppercase;">Purpose of Visit</label>
+                <span id="display-purpose" style="font-size: 1.1rem; color: #fff;">-</span>
+            </div>
+
+            <div class="detail-item">
+                <label style="font-size: 0.75rem; color: #aaa; display: block; text-transform: uppercase;">Time of Log</label>
+                <span id="display-time" style="font-size: 1.1rem; color: #fff;">-</span>
+            </div>
+        </div>
+
+        <button class="btn" onclick="goHome()" style="margin-top: 30px;">Done</button>
+    </div>
+
+    <script src="js/welcome.js"></script>
+</body>
+</html>
