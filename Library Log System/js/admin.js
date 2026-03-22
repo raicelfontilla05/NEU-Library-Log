@@ -15,7 +15,7 @@ async function checkAuth() {
     if (error || !session || !allowedAdmins.includes(session.user.email)) {
         console.log("Auth Failed. Redirecting...");
         // Use the full URL to ensure the browser doesn't get lost
-        window.location.replace("https://raicelfontilla05.github.io/NEU-Library-Log/adminLogin.html");
+        window.location.replace("https://raicelfontilla05.github.io/NEU-Library-Log/Library%20Log%20System/admin.html");
     } else {
         console.log("Authenticated as:", session.user.email);
         loadAdminData();
