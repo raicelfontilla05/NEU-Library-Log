@@ -1,19 +1,24 @@
 async function checkAuth() {
-
+    // 1. Immediately strip the hash if it exists to prevent 404 on refresh
     if (window.location.hash.includes("access_token")) {
-        window.history.replaceState(null, null, window.location.pathname);
+        const cleanUrl = window.location.origin + window.location.pathname;
+        window.history.replaceState(null, null, cleanUrl);
     }
 
+    // 2. Get the session with a fallback check
     const { data: { session }, error } = await _supabase.auth.getSession();
-    const user = session?.user;
-
+    
+    // 3. Define allowed admins (Check these emails carefully!)
     const allowedAdmins = ["raicel.fontilla@neu.edu.ph", "jcesperanza@neu.edu.ph"];
 
-    if (!user || error || !allowedAdmins.includes(user.email)) {
-        console.log("Unauthorized or no session. Redirecting...");
-        window.location.replace("adminLogin.html");
+    if (error || !session || !allowedAdmins.includes(session.user.email)) {
+        console.log("Auth Failed. Redirecting to login...");
+        // Use a slight delay to ensure the redirect triggers properly
+        setTimeout(() => {
+            window.location.replace("adminLogin.html");
+        }, 500);
     } else {
-        console.log("Welcome Admin:", user.email);
+        console.log("Authenticated as:", session.user.email);
         loadAdminData();
         setupRealtimeListener();
     }
