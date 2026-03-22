@@ -1,10 +1,14 @@
 async function checkAuth() {
-    const { data: { user }, error } = await _supabase.auth.getUser();
+    // Give Supabase a split second to recover the session
+    const { data: { session }, error } = await _supabase.auth.getSession();
+    const user = session?.user;
 
+    // List of emails allowed to see the dashboard
     const allowedAdmins = ["raicel.fontilla@neu.edu.ph", "jcesperanza@neu.edu.ph"];
 
     if (!user || error || !allowedAdmins.includes(user.email)) {
-        if (user) await _supabase.auth.signOut();
+        console.log("Unauthorized or no session. Redirecting...");
+        // Use a relative path to ensure it finds the login page
         window.location.replace("adminLogin.html");
     } else {
         console.log("Welcome Admin:", user.email);
