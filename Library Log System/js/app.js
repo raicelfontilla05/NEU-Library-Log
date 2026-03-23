@@ -11,10 +11,26 @@ function goHome() { location.href = "index.html"; }
 function goToAdmin() { location.href = "adminLogin.html"; }
 
 // --- AUTHENTICATION ---
+// --- AUTHENTICATION ---
 async function signInWithGoogle() {
-    // Dynamically determine the redirect URL based on where the app is running
-    const redirectUrl = window.location.origin + window.location.pathname.replace('adminLogin.html', 'admin.html');
+    // This logic ensures that no matter how you got to the login page, 
+    // it finds the 'admin.html' file in the same directory.
+    let currentPath = window.location.pathname;
+    let newPath;
+
+    if (currentPath.endsWith('adminLogin.html')) {
+        newPath = currentPath.replace('adminLogin.html', 'admin.html');
+    } else if (currentPath.endsWith('/')) {
+        newPath = currentPath + 'admin.html';
+    } else {
+        // If the path is just a folder name without a trailing slash
+        newPath = currentPath + '/admin.html';
+    }
+
+    const redirectUrl = window.location.origin + newPath;
     
+    console.log("Redirecting to:", redirectUrl); // Check your console to see if this is correct
+
     const { error } = await _supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
@@ -22,11 +38,6 @@ async function signInWithGoogle() {
         }
     });
     if (error) alert("Login failed: " + error.message);
-}
-
-async function handleLogout() {
-    await _supabase.auth.signOut();
-    window.location.replace("adminLogin.html");
 }
 
 // --- VISITOR LOGIC ---
