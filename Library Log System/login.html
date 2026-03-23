@@ -51,13 +51,14 @@
                         <span id="selectedDepartment">Select department</span>
                     </div>
                     <div class="dropdown-menu" id="departmentMenu">
+                        <input type="text" class="dropdown-search" onkeyup="filterDepts()" id="deptSearch" placeholder="Search department...">
                         <div class="dropdown-item" onclick="selectDepartment('N/A')">N/A</div>
                         <div class="dropdown-item" onclick="selectDepartment('College of Accountancy')">College of Accountancy</div>
                         <div class="dropdown-item" onclick="selectDepartment('College of Agriculture')">College of Agriculture</div>
                         <div class="dropdown-item" onclick="selectDepartment('College of Arts and Science')">College of Arts and Science</div>
                         <div class="dropdown-item" onclick="selectDepartment('College of Business Administration')">College of Business Administration</div>
                         <div class="dropdown-item" onclick="selectDepartment('College of Communication')">College of Communication</div>
-                        <div class="dropdown-item" onclick="selectDepartment('College of Informatics and Computing Studies')">College of Informatics and Computing Studies</div>
+                        <div class="dropdown-item" onclick="selectDepartment('College of Informatics and Computing Studies')">College of Informatics and Computing Studies (CICS)</div>
                         <div class="dropdown-item" onclick="selectDepartment('College of Criminology')">College of Criminology</div>
                         <div class="dropdown-item" onclick="selectDepartment('College of Education')">College of Education</div>
                         <div class="dropdown-item" onclick="selectDepartment('College of Engineering and Architecture')">College of Engineering and Architecture</div>
@@ -67,6 +68,9 @@
                         <div class="dropdown-item" onclick="selectDepartment('College of Nursing')">College of Nursing</div>
                         <div class="dropdown-item" onclick="selectDepartment('College of Physical Therapy')">College of Physical Therapy</div>
                         <div class="dropdown-item" onclick="selectDepartment('College of Respiratory Therapy')">College of Respiratory Therapy</div>
+                        <div class="dropdown-item" onclick="selectDepartment('College of Law')">College of Law</div>
+                        <div class="dropdown-item" onclick="selectDepartment('College of Medicine')">College of Medicine</div>
+                        <div class="dropdown-item" onclick="selectDepartment('Graduate School')">Graduate School</div>
                         <div class="dropdown-item" onclick="selectDepartment('School of International Relations')">School of International Relations</div>
                     </div>
                 </div>
@@ -75,7 +79,7 @@
 
             <div class="input-group">
                 <label>Email</label>
-                <input type="email" id="user-id" placeholder="example@neu.edu">
+                <input type="email" id="user-id" placeholder="example@neu.edu.ph">
             </div>
 
             <div class="input-group">
@@ -85,7 +89,6 @@
                         <span id="selectedPurpose">Select purpose</span>
                     </div>
                     <div class="dropdown-menu" id="dropdownMenu">
-                        <input type="text" class="dropdown-search" onkeyup="filterDropdown()" placeholder="Search...">
                         <div class="dropdown-item" onclick="selectPurpose('Reading')">Reading</div>
                         <div class="dropdown-item" onclick="selectPurpose('Research')">Research</div>
                         <div class="dropdown-item" onclick="selectPurpose('Use of Computer')">Use of Computer</div>
@@ -98,7 +101,7 @@
 
             <div id="other-purpose-group" style="display:none;" class="input-group">
                 <label>Specify Purpose</label>
-                <input type="text" id="other-purpose" placeholder="e.g., Meeting, Seminar, etc.">
+                <input type="text" id="other-purpose" placeholder="Enter purpose here...">
             </div>
 
             <button class="btn" onclick="processLogin()">Log In</button>
@@ -107,8 +110,19 @@
 
     <script src="js/app.js"></script>
     <script>
+        // Start Clock
         setInterval(() => updateClock("header-clock"), 1000);
         updateClock("header-clock");
+
+        // Simple search function for Departments
+        function filterDepts() {
+            let input = document.getElementById('deptSearch').value.toLowerCase();
+            let items = document.querySelectorAll('#departmentMenu .dropdown-item');
+            items.forEach(item => {
+                let text = item.innerText.toLowerCase();
+                item.style.display = text.includes(input) ? "block" : "none";
+            });
+        }
     </script>
 </body>
 </html>
