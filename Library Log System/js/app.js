@@ -54,6 +54,15 @@ async function processLogin() {
 
         if (error) throw error;
 
+        // CRITICAL: Save data for the welcome page to read
+        const loginData = {
+            email: email,
+            department: dept || "N/A",
+            purpose: finalPurpose,
+            time: new Date().toLocaleTimeString() + " | " + new Date().toLocaleDateString()
+        };
+        localStorage.setItem("latestVisitor", JSON.stringify(loginData));
+
         window.location.href = "welcome.html"; 
     } catch (err) {
         console.error("Database Error:", err.message);
@@ -93,8 +102,6 @@ function toggleDropdown() { toggleDropdownElement("dropdownMenu"); }
 function selectUserType(v) {
     document.getElementById("selectedUserType").innerText = v;
     document.getElementById("user-type").value = v;
-    const deptGroup = document.getElementById("dept-input-group");
-    if (deptGroup) deptGroup.style.display = (v === "Student") ? "block" : "none";
     closeAllDropdowns();
 }
 
