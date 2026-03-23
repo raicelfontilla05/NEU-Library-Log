@@ -12,10 +12,13 @@ function goToAdmin() { location.href = "adminLogin.html"; }
 
 // --- AUTHENTICATION ---
 async function signInWithGoogle() {
+    // Dynamically determine the redirect URL based on where the app is running
+    const redirectUrl = window.location.origin + window.location.pathname.replace('adminLogin.html', 'admin.html');
+    
     const { error } = await _supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-            redirectTo: 'https://raicelfontilla05.github.io/NEU-Library-Log/Library%20Log%20System/admin.html'
+            redirectTo: redirectUrl
         }
     });
     if (error) alert("Login failed: " + error.message);
@@ -28,12 +31,26 @@ async function handleLogout() {
 
 // --- VISITOR LOGIC ---
 async function processLogin() {
-    const email = document.getElementById("user-id").value;
-    const type = document.getElementById("user-type").value;
-    const dept = document.getElementById("department").value;
-    const purposeInput = document.getElementById("purpose").value;
-    const otherPurpose = document.getElementById("other-purpose")?.value || "";
+    // 1. Get input elements
+    const emailEl = document.getElementById("user-id");
+    const typeEl = document.getElementById("user-type");
+    const deptEl = document.getElementById("department");
+    const purposeEl = document.getElementById("purpose");
+    const otherPurposeEl = document.getElementById("other-purpose");
 
+    // 2. Validate existence of elements to prevent crashes
+    if (!emailEl || !typeEl || !purposeEl) {
+        console.error("Required form elements are missing from HTML.");
+        return;
+    }
+
+    const email = emailEl.value.trim();
+    const type = typeEl.value;
+    const dept = deptEl.value || "N/A";
+    const purposeInput = purposeEl.value;
+    const otherPurpose = otherPurposeEl ? otherPurposeEl.value.trim() : "";
+
+    // 3. Validation Logic
     const blockedUsers = JSON.parse(localStorage.getItem("blockedUsers") || "[]");
     if (blockedUsers.includes(email)) {
         alert("This account has been blocked by the Administrator.");
@@ -45,25 +62,37 @@ async function processLogin() {
         return;
     }
 
+    // Determine final purpose string
     const finalPurpose = (purposeInput === "Others") ? otherPurpose : purposeInput;
+    if (purposeInput === "Others" && !otherPurpose) {
+        alert("Please specify your purpose.");
+        return;
+    }
 
     try {
+        // 4. Insert into Supabase
         const { error } = await _supabase
             .from('visitor_logs')
-            .insert([{ email, user_type: type, department: dept, purpose: finalPurpose }]);
+            .insert([{ 
+                email: email, 
+                user_type: type, 
+                department: dept, 
+                purpose: finalPurpose 
+            }]);
 
         if (error) throw error;
 
-        // CRITICAL: Save data for the welcome page to read
+        // 5. Save data for the welcome page to read
         const loginData = {
             email: email,
-            department: dept || "N/A",
+            department: dept,
             purpose: finalPurpose,
-            time: new Date().toLocaleTimeString() + " | " + new Date().toLocaleDateString()
+            time: new Date().toLocaleTimeString() + " | " + new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
         };
         localStorage.setItem("latestVisitor", JSON.stringify(loginData));
 
-        window.location.href = "welcome.html"; 
+        // 6. Redirect
+        window.location.href = "./welcome.html"; 
     } catch (err) {
         console.error("Database Error:", err.message);
         alert("System error: " + err.message);
@@ -74,10 +103,17 @@ async function processLogin() {
 function updateClock(id) {
     const d = new Date();
     const el = document.getElementById(id);
-    if (el) el.innerText = d.toLocaleTimeString() + " | " + d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    if (el) {
+        el.innerText = d.toLocaleTimeString() + " | " + d.toLocaleDateString('en-US', { 
+            year: 'numeric', month: 'long', day: 'numeric' 
+        });
+    }
 }
 
-function toggleAdmin() { document.getElementById("adminDropdown").classList.toggle("show"); }
+function toggleAdmin() { 
+    const drop = document.getElementById("adminDropdown");
+    if (drop) drop.classList.toggle("show"); 
+}
 
 function closeAllDropdowns() {
     document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove("show"));
@@ -86,6 +122,7 @@ function closeAllDropdowns() {
 
 function toggleDropdownElement(menuId) {
     const m = document.getElementById(menuId);
+    if (!m) return;
     const isOpen = m.classList.contains("show");
     closeAllDropdowns();
     if (!isOpen) {
@@ -100,25 +137,35 @@ function toggleDepartmentDropdown() { toggleDropdownElement("departmentMenu"); }
 function toggleDropdown() { toggleDropdownElement("dropdownMenu"); }
 
 function selectUserType(v) {
-    document.getElementById("selectedUserType").innerText = v;
-    document.getElementById("user-type").value = v;
+    const label = document.getElementById("selectedUserType");
+    const input = document.getElementById("user-type");
+    if (label) label.innerText = v;
+    if (input) input.value = v;
     closeAllDropdowns();
 }
 
 function selectDepartment(v) {
-    document.getElementById("selectedDepartment").innerText = v;
-    document.getElementById("department").value = v;
+    const label = document.getElementById("selectedDepartment");
+    const input = document.getElementById("department");
+    if (label) label.innerText = v;
+    if (input) input.value = v;
     closeAllDropdowns();
 }
 
 function selectPurpose(v) {
-    document.getElementById("selectedPurpose").innerText = v;
-    document.getElementById("purpose").value = v;
+    const label = document.getElementById("selectedPurpose");
+    const input = document.getElementById("purpose");
+    if (label) label.innerText = v;
+    if (input) input.value = v;
+    
     const otherGroup = document.getElementById("other-purpose-group");
-    if (otherGroup) otherGroup.style.display = (v === "Others") ? "block" : "none";
+    if (otherGroup) {
+        otherGroup.style.display = (v === "Others") ? "block" : "none";
+    }
     closeAllDropdowns();
 }
 
+// Handle clicks outside of dropdowns to close them
 window.onclick = function(e) {
     if (!e.target.closest('.custom-dropdown') && !e.target.closest('.admin-container')) {
         closeAllDropdowns();
