@@ -1,5 +1,4 @@
-// admin.js - DO NOT add Supabase config here, app.js handles it.
-
+// admin.js
 async function checkAuth() {
     if (window.location.hash.includes("access_token")) {
         const cleanUrl = window.location.origin + window.location.pathname;
@@ -10,10 +9,8 @@ async function checkAuth() {
     const allowedAdmins = ["raicel.fontilla@neu.edu.ph", "jcesperanza@neu.edu.ph"];
 
     if (error || !session || !allowedAdmins.includes(session.user.email)) {
-        console.log("Auth Failed. Redirecting...");
-        window.location.replace("https://raicelfontilla05.github.io/NEU-Library-Log/Library%20Log%20System/adminLogin.html");
+        window.location.replace("adminLogin.html");
     } else {
-        console.log("Authenticated as:", session.user.email);
         loadAdminData();
         setupRealtimeListener();
     }
@@ -37,7 +34,7 @@ async function loadAdminData() {
     if (error) return console.error("Error:", error);
 
     const tableBody = document.getElementById("tableBody");
-    if (!tableBody) return; // Stop if the table isn't on this page
+    if (!tableBody) return;
 
     const blockedUsers = JSON.parse(localStorage.getItem("blockedUsers") || "[]");
     tableBody.innerHTML = "";
@@ -70,6 +67,43 @@ async function loadAdminData() {
     document.getElementById("facultyCount").innerText = stats.Faculty;
 }
 
+function toggleBlockUser(email) {
+    let blocked = JSON.parse(localStorage.getItem("blockedUsers") || "[]");
+    if (blocked.includes(email)) {
+        blocked = blocked.filter(e => e !== email);
+    } else {
+        blocked.push(email);
+    }
+    localStorage.setItem("blockedUsers", JSON.stringify(blocked));
+    loadAdminData();
+}
+
+async function clearAllData() {
+    if (confirm("Are you sure you want to delete all visitor logs from the database?")) {
+        const { error } = await _supabase.from('visitor_logs').delete().neq('email', ''); 
+        if (error) alert(error.message);
+        loadAdminData();
+    }
+}
+
+async function exportData() {
+    const { data: visitors } = await _supabase.from('visitor_logs').select('*');
+    if (!visitors || visitors.length === 0) return alert("No data to export");
+
+    const csvRows = [
+        ["Email", "Type", "Department", "Purpose", "Logged At"],
+        ...visitors.map(v => [v.email, v.user_type, v.department, v.purpose, new Date(v.created_at).toLocaleString()])
+    ];
+
+    const csvContent = csvRows.map(e => e.join(",")).join("\n");
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `NEU_Library_Logs_${new Date().toLocaleDateString()}.csv`;
+    a.click();
+}
+
 function filterTable() {
     let val = document.getElementById("searchInput").value.toLowerCase();
     document.querySelectorAll("#visitorTable tbody tr").forEach(r => {
@@ -77,5 +111,4 @@ function filterTable() {
     });
 }
 
-// Start the check
 checkAuth();
