@@ -1,12 +1,20 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const logs = JSON.parse(localStorage.getItem("visitorLogs")) || [];
-    if (logs.length > 0) {
-        const user = logs[logs.length - 1];
-        document.getElementById("display-email").innerText = user.email;
-        document.getElementById("display-dept").innerText = user.department;
-        document.getElementById("display-purpose").innerText = user.purpose;
-        document.getElementById("display-time").innerText = user.time;
+    // Pull the data we just saved during the processLogin function
+    const data = JSON.parse(localStorage.getItem("latestVisitor"));
+    
+    if (data) {
+        document.getElementById("display-email").innerText = data.email;
+        document.getElementById("display-dept").innerText = data.department;
+        document.getElementById("display-purpose").innerText = data.purpose;
+        document.getElementById("display-time").innerText = data.time;
+    } else {
+        // Fallback if someone navigates here directly without logging in
+        document.querySelector(".welcome-details").innerHTML = "<p style='color:red;'>No recent login data found.</p>";
     }
 });
 
-function goHome() { window.location.href = "index.html"; }
+function goHome() { 
+    // Clear the temporary storage when they are done
+    localStorage.removeItem("latestVisitor");
+    window.location.href = "index.html"; 
+}
