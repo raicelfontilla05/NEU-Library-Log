@@ -1,16 +1,22 @@
 // admin.js
 async function checkAuth() {
+    // 1. If there's a token in the URL, this cleans it up
     if (window.location.hash.includes("access_token")) {
-        const cleanUrl = window.location.origin + window.location.pathname;
+        // Use a safer way to clean the URL without losing the path
+        const cleanUrl = window.location.href.split('#')[0];
         window.history.replaceState(null, null, cleanUrl);
     }
 
     const { data: { session }, error } = await _supabase.auth.getSession();
+    
+    // 2. Your email IS on this list (raicel.fontilla@neu.edu.ph), so this is correct.
     const allowedAdmins = ["raicel.fontilla@neu.edu.ph", "jcesperanza@neu.edu.ph"];
 
     if (error || !session || !allowedAdmins.includes(session.user.email)) {
+        console.log("Auth failed or user not on list");
         window.location.replace("adminLogin.html");
     } else {
+        console.log("Welcome, Admin!");
         loadAdminData();
         setupRealtimeListener();
     }
