@@ -14,10 +14,12 @@ function goToAdmin() { location.href = "adminLogin.html"; }
 // --- AUTHENTICATION ---
 // In app.js
 async function signInWithGoogle() {
-    // This is safer. It ensures it points to your admin.html regardless of subfolders
-    const redirectUrl = `${window.location.origin}/admin.html`; 
+    // 1. Correctly define the URL for GitHub Pages
     
-    console.log("Redirecting to:", redirectUrl); // COPY THIS LOGGED URL
+    const redirectUrl = "https://raicelfontilla05.github.io/NEU-Library-Log/Library%20Log%20System/admin.html";
+    
+    // 2. Fix the console.log syntax (the URL must be in quotes)
+    console.log("Redirecting to:", redirectUrl); 
 
     const { error } = await _supabase.auth.signInWithOAuth({
         provider: 'google',
@@ -25,6 +27,7 @@ async function signInWithGoogle() {
             redirectTo: redirectUrl
         }
     });
+    
     if (error) alert("Login failed: " + error.message);
 }
 
