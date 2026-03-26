@@ -14,24 +14,18 @@ function goToAdmin() { location.href = "adminLogin.html"; }
 // --- AUTHENTICATION ---
 // In app.js
 async function signInWithGoogle() {
-    // Explicitly define the full path to avoid "state" loss during redirects
-    const finalRedirect = "https://raicelfontilla05.github.io/NEU-Library-Log/Library%20Log%20System/admin.html";
+    // This MUST match your actual file location exactly
+    const redirectUrl = "https://raicelfontilla05.github.io/NEU-Library-Log/Library%20Log%20System/admin.html";
+    
+    console.log("Redirecting to correct folder:", redirectUrl);
 
     const { error } = await _supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-            redirectTo: finalRedirect,
-            // This line helps ensure the session persists correctly
-            queryParams: {
-                prompt: 'select_account'
-            }
+            redirectTo: redirectUrl
         }
     });
-
-    if (error) {
-        console.error("Auth Error:", error.message);
-        alert("Login failed: " + error.message);
-    }
+    if (error) alert("Login failed: " + error.message);
 }
 
 // --- VISITOR LOGIC ---
