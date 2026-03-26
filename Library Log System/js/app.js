@@ -14,21 +14,24 @@ function goToAdmin() { location.href = "adminLogin.html"; }
 // --- AUTHENTICATION ---
 // In app.js
 async function signInWithGoogle() {
-    // 1. Correctly define the URL for GitHub Pages
-    
-    const redirectUrl = "https://raicelfontilla05.github.io/NEU-Library-Log/Library%20Log%20System/admin.html";
-    
-    // 2. Fix the console.log syntax (the URL must be in quotes)
-    console.log("Redirecting to:", redirectUrl); 
+    // Explicitly define the full path to avoid "state" loss during redirects
+    const finalRedirect = "https://raicelfontilla05.github.io/NEU-Library-Log/Library%20Log%20System/admin.html";
 
     const { error } = await _supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-            redirectTo: redirectUrl
+            redirectTo: finalRedirect,
+            // This line helps ensure the session persists correctly
+            queryParams: {
+                prompt: 'select_account'
+            }
         }
     });
-    
-    if (error) alert("Login failed: " + error.message);
+
+    if (error) {
+        console.error("Auth Error:", error.message);
+        alert("Login failed: " + error.message);
+    }
 }
 
 // --- VISITOR LOGIC ---
