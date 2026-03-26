@@ -12,24 +12,12 @@ function goToAdmin() { location.href = "adminLogin.html"; }
 
 // --- AUTHENTICATION ---
 // --- AUTHENTICATION ---
+// In app.js
 async function signInWithGoogle() {
-    // This logic ensures that no matter how you got to the login page, 
-    // it finds the 'admin.html' file in the same directory.
-    let currentPath = window.location.pathname;
-    let newPath;
-
-    if (currentPath.endsWith('adminLogin.html')) {
-        newPath = currentPath.replace('adminLogin.html', 'admin.html');
-    } else if (currentPath.endsWith('/')) {
-        newPath = currentPath + 'admin.html';
-    } else {
-        // If the path is just a folder name without a trailing slash
-        newPath = currentPath + '/admin.html';
-    }
-
-    const redirectUrl = window.location.origin + newPath;
+    // This is safer. It ensures it points to your admin.html regardless of subfolders
+    const redirectUrl = `${window.location.origin}/admin.html`; 
     
-    console.log("Redirecting to:", redirectUrl); // Check your console to see if this is correct
+    console.log("Redirecting to:", redirectUrl); // COPY THIS LOGGED URL
 
     const { error } = await _supabase.auth.signInWithOAuth({
         provider: 'google',
